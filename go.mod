@@ -3,13 +3,17 @@ module github.com/scribesavant/raydium-swap-go
 go 1.22.0
 
 require (
+	github.com/davecgh/go-spew v1.1.1
+	github.com/gagliardetto/binary v0.8.0
+	github.com/gagliardetto/solana-go v1.10.0
+	lukechampine.com/uint128 v1.3.0
+)
+
+require (
 	filippo.io/edwards25519 v1.0.0-rc.1 // indirect
 	github.com/andres-erbsen/clock v0.0.0-20160526145045-9e14626cd129 // indirect
 	github.com/blendle/zapdriver v1.3.1 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.9.0 // indirect
-	github.com/gagliardetto/binary v0.8.0 // indirect
-	github.com/gagliardetto/solana-go v1.10.0 // indirect
 	github.com/gagliardetto/treeout v0.1.4 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -32,5 +36,4 @@ require (
 	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
-	lukechampine.com/uint128 v1.3.0
 )

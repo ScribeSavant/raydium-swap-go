@@ -8,6 +8,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gagliardetto/solana-go/rpc"
 	"github.com/scribesavant/raydium-swap-go/raydium"
+	"github.com/scribesavant/raydium-swap-go/raydium/trade"
 	"github.com/scribesavant/raydium-swap-go/raydium/utils"
 )
 
@@ -36,7 +37,14 @@ func main() {
 		panic(err)
 	}
 
-	tx, err := raydium.Trade.MakeSwapTransaction(poolKeys, amountsOut.AmountIn, amountsOut.MinAmountOut)
+	tx, err := raydium.Trade.MakeSwapTransaction(
+		poolKeys,
+		amountsOut.AmountIn,
+		amountsOut.MinAmountOut,
+		trade.FeeConfig{
+			MicroLamports: 25000, // fee 0.000025 sol
+		},
+	)
 
 	if err != nil {
 		panic(err)

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gagliardetto/solana-go"
 	associatedtokenaccount "github.com/gagliardetto/solana-go/programs/associated-token-account"
+	computebudget "github.com/gagliardetto/solana-go/programs/compute-budget"
 	"github.com/gagliardetto/solana-go/programs/system"
 	"github.com/gagliardetto/solana-go/programs/token"
 	"github.com/gagliardetto/solana-go/rpc"
@@ -18,6 +19,10 @@ type Trade struct {
 	Signer     *solana.PrivateKey
 }
 
+type FeeConfig struct {
+	MicroLamports uint64
+}
+
 func New(connection *rpc.Client, signer *solana.PrivateKey) *Trade {
 	return &Trade{
 		Connection: connection,
@@ -25,14 +30,18 @@ func New(connection *rpc.Client, signer *solana.PrivateKey) *Trade {
 	}
 }
 
-func (t *Trade) MakeSwapTransaction(poolKeys *layouts.ApiPoolInfoV4, amountIn *utils.TokenAmount, minAmountOut *utils.TokenAmount) (*solana.Transaction, error) {
+func (t *Trade) MakeSwapTransaction(poolKeys *layouts.ApiPoolInfoV4, amountIn *utils.TokenAmount, minAmountOut *utils.TokenAmount, feeConfig FeeConfig) (*solana.Transaction, error) {
 	recent, err := t.Connection.GetRecentBlockhash(context.Background(), rpc.CommitmentFinalized)
 
 	if err != nil {
 		return &solana.Transaction{}, err
 	}
 
-	var instructions []solana.Instruction = []solana.Instruction{}
+	var instructions []solana.Instruction = []solana.Instruction{
+		computebudget.NewSetComputeUnitLimitInstruction(600000).Build(),
+		computebudget.NewSetComputeUnitPriceInstruction(feeConfig.MicroLamports).Build(),
+	}
+
 	tokenAccountIn, err := t.selectOrCreateAccount(amountIn, &instructions, "in")
 
 	if err != nil {
