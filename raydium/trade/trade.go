@@ -31,7 +31,7 @@ func New(connection *rpc.Client, signer *solana.PrivateKey) *Trade {
 }
 
 func (t *Trade) MakeSwapTransaction(poolKeys *layouts.ApiPoolInfoV4, amountIn *utils.TokenAmount, minAmountOut *utils.TokenAmount, feeConfig FeeConfig) (*solana.Transaction, error) {
-	recent, err := t.Connection.GetRecentBlockhash(context.Background(), rpc.CommitmentFinalized)
+	recent, err := t.Connection.GetLatestBlockhash(context.Background(), rpc.CommitmentFinalized)
 
 	if err != nil {
 		return &solana.Transaction{}, err

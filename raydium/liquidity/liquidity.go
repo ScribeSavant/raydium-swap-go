@@ -125,7 +125,7 @@ func (l *Liquidity) makeSimulatePoolInfoInstruction(poolKeys *layouts.ApiPoolInf
 
 func (l *Liquidity) simulateAmountsOut(instructions []solana.Instruction) (*rpc.SimulateTransactionResponse, error) {
 	feePayer := solana.MustPublicKeyFromBase58("RaydiumSimuLateTransaction11111111111111111")
-	recent, err := l.connection.GetRecentBlockhash(context.Background(), rpc.CommitmentFinalized)
+	recent, err := l.connection.GetLatestBlockhash(context.Background(), rpc.CommitmentFinalized)
 	if err != nil {
 		return &rpc.SimulateTransactionResponse{}, err
 	}
